@@ -1,9 +1,21 @@
 #!/bin/bash
 
 input_file="v1model.p4"
+v1model_checksum="6f7e8d80db399502ad93bfd6fc2715dd34d98c8abc2b88fefe6cde0281e2dac3"
 
-# downloads script
-wget https://raw.githubusercontent.com/p4lang/p4c/main/p4include/v1model.p4 -O $input_file
+if [ ! -f $input_file ]; then
+
+	# downloads script
+	wget https://raw.githubusercontent.com/p4lang/p4c/main/p4include/v1model.p4 -O $input_file
+fi
+
+input_file_checksum=`sha256sum $input_file | cut -d' ' -f1`
+
+if [ $input_file_checksum != $v1model_checksum ]; then
+	echo "O arquivo baixado é diferente do que funciona"
+	echo $input_file_checksum
+	exit 1
+fi
 
 # adds the queueing standard_metadata fields
 
