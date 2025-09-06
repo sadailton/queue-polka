@@ -29,7 +29,7 @@ header ethernet_t {
 header nssai_t {
     bit<8>  sst; //Slice/Service Type
     bit<24> sd; //Slice Differentiator
-    //bit<16> nextHeaderType; //Next Header Type
+    bit<16> nextHeaderType; //Next Header Type
 }
 
 header srcRoute_t {
@@ -62,7 +62,10 @@ struct polka_t_top {
     macAddr_t dstAddr;
     macAddr_t srcAddr;
     bit<16>   etherType;
-    bit<160>    routeId;
+    bit<8>    sst;
+    bit<24>   sd;
+    bit<16>   nextHeaderType;
+    bit<160>  routeId;
 }
 
 struct headers {
@@ -172,6 +175,7 @@ control process_tunnel_encap(inout headers hdr,
         } else {
 
             hdr.ethernet.etherType = TYPE_NSSAI;
+            hdr.nssai.nextHeaderType = TYPE_SRCROUTING;
         }
     }
 }
@@ -199,8 +203,6 @@ control MyIngress(inout headers hdr,
             hdr.nssai.setInvalid();
             hdr.srcRoute.setInvalid();
             standard_metadata.egress_spec = 1;
-
-            //standard_metadata.priority = (bit<3>)hdr.ipv4.diffserv;
 		}
 
     }

@@ -27,6 +27,7 @@ header ethernet_t {
 header nssai_t {
     bit<8>  sst; //Slice/Service Type
     bit<24> sd; //Slice Differentiator
+    bit<16> nextHeaderType; //Next Header Type
 }
 
 header srcRoute_t {
@@ -65,6 +66,7 @@ struct polka_t_top {
     bit<16>   etherType;
     bit<8>    sst;
     bit<24>   sd;
+    bit<16>   nextHeaderType;
     bit<160>  routeId;
 }
 
