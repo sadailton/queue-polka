@@ -48,7 +48,6 @@ struct metadata {
     bit<1> apply_sr;
     bit<1> apply_decap;
     bit<9> port;
-    bit<3> qid;
 }
 
 struct polka_t_top {
@@ -134,16 +133,9 @@ control MyIngress(inout headers hdr,
         nbase,
         {ndata},ncount);
 
-        bit<16>nlabel = nresult ^ dif;
         nport = nresult ^ dif;
 
-        nport = nlabel >> 3;
         meta.port= (bit<9>) nport;
-        
-        bit<16>qid = nlabel << 13;
-       
-        meta.qid = (bit<3>) (qid >> 13);
-        meta.port = (bit<9>) nport;
 
     }
 
@@ -151,7 +143,6 @@ control MyIngress(inout headers hdr,
 		if (meta.apply_sr==1){
 			srcRoute_nhop();
 			standard_metadata.egress_spec = meta.port;
-            standard_metadata.priority = meta.qid;
 		}else{
 			drop();
 		}

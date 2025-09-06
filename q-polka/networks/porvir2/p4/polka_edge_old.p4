@@ -24,7 +24,7 @@ header ethernet_t {
 }
 
 header srcRoute_t {
-    bit<160>   routeId;
+    bit<160>    routeId;
 }
 
 header ipv4_t {
@@ -43,19 +43,17 @@ header ipv4_t {
 }
 
 struct metadata {
-    bit<160>  routeId;
+    bit<160>   routeId;
     bit<16>   etherType;
     bit<1> apply_sr;
-    bit<1> apply_decap;
     bit<9> port;
-    bit<3> qid;
 }
 
 struct polka_t_top {
     macAddr_t dstAddr;
     macAddr_t srcAddr;
     bit<16>   etherType;
-    bit<160>   routeId;
+    bit<160>    routeId;
 }
 
 struct headers {
@@ -74,23 +72,28 @@ parser MyParser(packet_in packet,
                 inout standard_metadata_t standard_metadata) {
 
     state start {
-        meta.apply_sr = 0;
-        transition verify_ethernet;
+        transition parse_ethernet;
     }
 
-    state verify_ethernet {
-        meta.etherType = packet.lookahead<polka_t_top>().etherType;
-        transition select(meta.etherType) {
-            TYPE_SRCROUTING: get_routeId;
+    state parse_ethernet {
+        packet.extract(hdr.ethernet);
+        transition select(hdr.ethernet.etherType) {
+            TYPE_IPV4: parse_ipv4;
+            TYPE_SRCROUTING: parse_srcRouting;
             default: accept;
         }
     }
 
-    state get_routeId {
-		meta.apply_sr = 1;
-        meta.routeId = packet.lookahead<polka_t_top>().routeId;
+    state parse_srcRouting {
+        packet.extract(hdr.srcRoute);
         transition accept;
     }
+
+    state parse_ipv4 {
+        packet.extract(hdr.ipv4);
+        transition accept;
+    }
+
 
 }
 
@@ -101,6 +104,66 @@ parser MyParser(packet_in packet,
 
 control MyVerifyChecksum(inout headers hdr, inout metadata meta) {
     apply {  }
+}
+
+
+/*************************************************************************
+**********************  T U N N E L   E N C A P   ************************
+*************************************************************************/
+control process_tunnel_encap(inout headers hdr,
+                            inout metadata meta,
+                            inout standard_metadata_t standard_metadata) {
+    action tdrop() {
+        mark_to_drop(standard_metadata);
+    }
+
+    action add_sourcerouting_header (   egressSpec_t port, bit<1> sr, macAddr_t dmac,
+                                        bit<160>  routeIdPacket) {
+
+        standard_metadata.egress_spec = port;
+        meta.apply_sr = sr;
+
+        hdr.ethernet.dstAddr = dmac;
+
+        hdr.srcRoute.setValid();
+        hdr.srcRoute.routeId = routeIdPacket;
+        
+    }
+
+    table tunnel_encap_process_sr {
+        key = {
+            hdr.ipv4.dstAddr: lpm;
+        }
+        actions = {
+            add_sourcerouting_header;
+            tdrop;
+        }
+        size = 1024;
+        default_action = tdrop();
+    }
+
+    apply {
+
+        tunnel_encap_process_sr.apply();
+
+        if (hdr.ipv4.srcAddr == 0x0a000001) {
+
+            standard_metadata.priority = (bit<3>)7; //h1
+
+        } else if (hdr.ipv4.srcAddr == 0x0a000002) {
+
+            standard_metadata.priority = (bit<3>)0; //h2
+        }
+
+        if (meta.apply_sr!=1) {
+            
+            hdr.srcRoute.setInvalid();
+
+        } else {
+
+            hdr.ethernet.etherType = TYPE_SRCROUTING;
+        }
+    }
 }
 
 
@@ -116,44 +179,16 @@ control MyIngress(inout headers hdr,
         mark_to_drop(standard_metadata);
     }
 
-    action srcRoute_nhop() {
-
-        bit<16> nbase=0;
-        bit<64> ncount=4294967296*2;
-        bit<16> nresult;
-        bit<16> nport;
-
-        bit<160>routeid = meta.routeId;
-        //routeid = 57851202663303480771156315372;
-
-        bit<160>ndata = routeid >> 16;
-        bit<16> dif = (bit<16>) (routeid ^ (ndata << 16));
-
-        hash(nresult,
-        HashAlgorithm.crc16_custom,
-        nbase,
-        {ndata},ncount);
-
-        bit<16>nlabel = nresult ^ dif;
-        nport = nresult ^ dif;
-
-        nport = nlabel >> 3;
-        meta.port= (bit<9>) nport;
-        
-        bit<16>qid = nlabel << 13;
-       
-        meta.qid = (bit<3>) (qid >> 13);
-        meta.port = (bit<9>) nport;
-
-    }
-
     apply {
-		if (meta.apply_sr==1){
-			srcRoute_nhop();
-			standard_metadata.egress_spec = meta.port;
-            standard_metadata.priority = meta.qid;
-		}else{
-			drop();
+
+    	if (hdr.ipv4.isValid() && hdr.ethernet.etherType != TYPE_SRCROUTING) {
+            process_tunnel_encap.apply(hdr, meta, standard_metadata);
+        } else if (hdr.ethernet.etherType == TYPE_SRCROUTING) {
+            hdr.ethernet.etherType = TYPE_IPV4;
+            hdr.srcRoute.setInvalid();
+            standard_metadata.egress_spec = 1;
+
+            //standard_metadata.priority = (bit<3>)hdr.ipv4.diffserv;
 		}
 
     }
@@ -168,7 +203,8 @@ control MyIngress(inout headers hdr,
 control MyEgress(inout headers hdr,
                  inout metadata meta,
                  inout standard_metadata_t standard_metadata) {
-    apply {  }
+                    
+    apply { }
 }
 
 /*************************************************************************
@@ -176,7 +212,7 @@ control MyEgress(inout headers hdr,
 *************************************************************************/
 
 control MyComputeChecksum(inout headers  hdr, inout metadata meta) {
-    apply {  }
+    apply {   }
 }
 
 /*************************************************************************
@@ -184,7 +220,11 @@ control MyComputeChecksum(inout headers  hdr, inout metadata meta) {
 *************************************************************************/
 
 control MyDeparser(packet_out packet, in headers hdr) {
-    apply {  }
+    apply {
+        packet.emit(hdr.ethernet);
+        packet.emit(hdr.srcRoute);
+        packet.emit(hdr.ipv4);
+    }
 }
 
 /*************************************************************************

@@ -3,7 +3,7 @@
 #include <v1model.p4>
 
 const bit<16> TYPE_IPV4 = 0x800;
-const bit<16> TYPE_SRCROUTING = 0x1234;
+const bit<16> TYPE_SR_POLKA = 0x1234;
 
 
 //Ethernet frame payload padding and P4
@@ -49,6 +49,7 @@ struct metadata {
     bit<1> apply_decap;
     bit<9> port;
     bit<3> qid;
+    bit<8> qos;
 }
 
 struct polka_t_top {
@@ -79,16 +80,25 @@ parser MyParser(packet_in packet,
     }
 
     state verify_ethernet {
-        meta.etherType = packet.lookahead<polka_t_top>().etherType;
-        transition select(meta.etherType) {
-            TYPE_SRCROUTING: get_routeId;
+        //meta.etherType = packet.lookahead<polka_t_top>().etherType;
+        packet.extract(hdr.ethernet);
+        transition select(hdr.ethernet.etherType) {
+            TYPE_SR_POLKA: get_routeId;
             default: accept;
         }
     }
 
     state get_routeId {
 		meta.apply_sr = 1;
-        meta.routeId = packet.lookahead<polka_t_top>().routeId;
+        packet.extract(hdr.srcRoute);
+        meta.routeId = hdr.srcRoute.routeId;
+        //meta.routeId = packet.lookahead<polka_t_top>().routeId;
+        //meta.qos = packet.lookahead<headers>().ipv4.diffserv;
+        transition parser_ipv4;
+    }
+
+    state parser_ipv4 {
+        packet.extract(hdr.ipv4);
         transition accept;
     }
 
@@ -124,7 +134,6 @@ control MyIngress(inout headers hdr,
         bit<16> nport;
 
         bit<160>routeid = meta.routeId;
-        //routeid = 57851202663303480771156315372;
 
         bit<160>ndata = routeid >> 16;
         bit<16> dif = (bit<16>) (routeid ^ (ndata << 16));
@@ -135,24 +144,31 @@ control MyIngress(inout headers hdr,
         {ndata},ncount);
 
         bit<16>nlabel = nresult ^ dif;
-        nport = nresult ^ dif;
-
         nport = nlabel >> 3;
-        meta.port= (bit<9>) nport;
-        
         bit<16>qid = nlabel << 13;
-       
-        meta.qid = (bit<3>) (qid >> 13);
+        
+        //meta.qid = (bit<3>) (qid >> 13);
         meta.port = (bit<9>) nport;
-
     }
 
     apply {
-		if (meta.apply_sr==1){
+
+		if (meta.apply_sr == 1) {
+
 			srcRoute_nhop();
-			standard_metadata.egress_spec = meta.port;
-            standard_metadata.priority = meta.qid;
-		}else{
+            standard_metadata.egress_spec = meta.port;
+            
+            if (hdr.ipv4.srcAddr == 0x0a000001) {
+                standard_metadata.priority = (bit<3>)7; //h1
+
+            } else if (hdr.ipv4.srcAddr == 0x0a000002) {
+
+                standard_metadata.priority = (bit<3>)0; //h2
+            } else {
+                meta.qid = 0;
+            }
+
+		} else {
 			drop();
 		}
 
@@ -168,15 +184,35 @@ control MyIngress(inout headers hdr,
 control MyEgress(inout headers hdr,
                  inout metadata meta,
                  inout standard_metadata_t standard_metadata) {
-    apply {  }
+
+    apply {  hdr.ipv4.diffserv = (bit<8>)standard_metadata.qid; 
+    }
 }
 
 /*************************************************************************
 *************   C H E C K S U M    C O M P U T A T I O N   **************
 *************************************************************************/
 
-control MyComputeChecksum(inout headers  hdr, inout metadata meta) {
-    apply {  }
+control MyComputeChecksum(inout headers hdr, inout metadata meta) {
+    apply {  
+        update_checksum(
+	    hdr.ipv4.isValid(),
+            { 
+                hdr.ipv4.version,
+                hdr.ipv4.ihl,
+                hdr.ipv4.diffserv,
+                hdr.ipv4.totalLen,
+                hdr.ipv4.identification,
+                hdr.ipv4.flags,
+                hdr.ipv4.fragOffset,
+                hdr.ipv4.ttl,
+                hdr.ipv4.protocol,
+                hdr.ipv4.srcAddr,
+                hdr.ipv4.dstAddr 
+            },
+            hdr.ipv4.hdrChecksum,
+            HashAlgorithm.csum16);
+    }
 }
 
 /*************************************************************************
@@ -184,7 +220,11 @@ control MyComputeChecksum(inout headers  hdr, inout metadata meta) {
 *************************************************************************/
 
 control MyDeparser(packet_out packet, in headers hdr) {
-    apply {  }
+    apply {  
+        packet.emit(hdr.ethernet);
+        packet.emit(hdr.srcRoute);
+        packet.emit(hdr.ipv4);
+    }
 }
 
 /*************************************************************************

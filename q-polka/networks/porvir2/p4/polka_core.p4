@@ -124,7 +124,6 @@ control MyIngress(inout headers hdr,
         bit<16> nport;
 
         bit<160>routeid = meta.routeId;
-        //routeid = 57851202663303480771156315372;
 
         bit<160>ndata = routeid >> 16;
         bit<16> dif = (bit<16>) (routeid ^ (ndata << 16));
@@ -135,24 +134,22 @@ control MyIngress(inout headers hdr,
         {ndata},ncount);
 
         bit<16>nlabel = nresult ^ dif;
-        nport = nresult ^ dif;
-
         nport = nlabel >> 3;
-        meta.port= (bit<9>) nport;
-        
         bit<16>qid = nlabel << 13;
-       
+        
         meta.qid = (bit<3>) (qid >> 13);
         meta.port = (bit<9>) nport;
-
     }
 
-    apply {
-		if (meta.apply_sr==1){
+    apply { 
+
+		if (meta.apply_sr == 1) {
+
 			srcRoute_nhop();
-			standard_metadata.egress_spec = meta.port;
+            standard_metadata.egress_spec = meta.port;
             standard_metadata.priority = meta.qid;
-		}else{
+            
+		} else {
 			drop();
 		}
 
@@ -175,7 +172,7 @@ control MyEgress(inout headers hdr,
 *************   C H E C K S U M    C O M P U T A T I O N   **************
 *************************************************************************/
 
-control MyComputeChecksum(inout headers  hdr, inout metadata meta) {
+control MyComputeChecksum(inout headers hdr, inout metadata meta) {
     apply {  }
 }
 

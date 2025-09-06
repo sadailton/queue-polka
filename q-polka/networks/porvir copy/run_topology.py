@@ -20,32 +20,30 @@ def topologia(remote_controller):
     host_vix_mac = "aa:bb:cc:dd:ee:01"
     host_vix_ip = "10.0.0.100/24"
     host_vix = rede.addHost("h1", ip=host_vix_ip, mac = host_vix_mac)
-    hosts.append(host_vix)
     
     host_sp_mac = "aa:bb:cc:dd:ee:02"
     host_sp_ip = "10.0.0.200/24"
     host_sp = rede.addHost("h2", ip=host_sp_ip, mac=host_sp_mac)
-    hosts.append(host_sp)
-
+    
     # Switches P4 core
     path = os.path.dirname(os.path.relpath(__file__))
     json_file_core = os.path.join(path, "./p4/polka_core.json")
     info(json_file_core + "\n")
     
     config_core_vix = os.path.join(path, "./sw_config/s1-commands.txt")
-    sw_core_vix = rede.addSwitch("s1", netcfg=True, json=json_file_core, thriftport=50001, switch_config=config_core_vix, loglevel=LOG_LEVEL, cls=P4Switch, priority_queue_num=8)
+    sw_core_vix = rede.addSwitch("s1", netcfg=True, json=json_file_core, thriftport=50001, switch_config=config_core_vix, loglevel=LOG_LEVEL, cls=P4Switch)
     
     
     config_core_mg = os.path.join(path, "./sw_config/s2-commands.txt")
-    sw_core_mg = rede.addSwitch("s2", netcfg=True, json=json_file_core, thriftport=50002, switch_config=config_core_mg, loglevel=LOG_LEVEL, cls=P4Switch, priority_queue_num=8)
+    sw_core_mg = rede.addSwitch("s2", netcfg=True, json=json_file_core, thriftport=50002, switch_config=config_core_mg, loglevel=LOG_LEVEL, cls=P4Switch)
     
     
     config_core_rj = os.path.join(path, "./sw_config/s3-commands.txt")
-    sw_core_rj = rede.addSwitch("s3", netcfg=True, json=json_file_core, thriftport=50003, switch_config=config_core_rj, loglevel=LOG_LEVEL, cls=P4Switch, priority_queue_num=8)
+    sw_core_rj = rede.addSwitch("s3", netcfg=True, json=json_file_core, thriftport=50003, switch_config=config_core_rj, loglevel=LOG_LEVEL, cls=P4Switch)
     
     
     config_core_sp = os.path.join(path, "./sw_config/s4-commands.txt")
-    sw_core_sp = rede.addSwitch("s4", netcfg=True, json=json_file_core, thriftport=50004, switch_config=config_core_sp, loglevel=LOG_LEVEL, cls=P4Switch, priority_queue_num=8)
+    sw_core_sp = rede.addSwitch("s4", netcfg=True, json=json_file_core, thriftport=50004, switch_config=config_core_sp, loglevel=LOG_LEVEL, cls=P4Switch)
     
     
     # Switches P4 edges
@@ -80,8 +78,8 @@ def topologia(remote_controller):
     rede.staticArp()
 
     # disabling offload for rx and tx on each host interface
-    #for host in hosts:
-    #    host.cmd("ethtool --offload {}-eth0 rx off tx off".format(host.name))
+    for host in hosts:
+        host.cmd("ethtool --offload {}-eth0 rx off tx off".format(host.name))
 
     info("*** Running CLI\n")
     CLI(rede)

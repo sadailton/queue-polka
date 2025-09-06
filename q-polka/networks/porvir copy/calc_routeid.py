@@ -33,18 +33,18 @@ def _main():
     identificam a fila dessa porta
     '''
     # com fila
-    o = [
-        [1, 1, 0, 0, 1],  # s1 - vix porta 3, fila 1
-        [1, 1, 0, 0, 1],  # s3 - rj, porta 3, fila 3
-        [0, 1, 0, 0, 1]   # s4 - sp, porta 1, fila 4
-    ]
+    #o = [
+    #    [1, 1, 0, 0, 1],  # s1 - vix porta 3, fila 1
+    #    [1, 1, 0, 0, 1],  # s3 - rj, porta 3, fila 3
+    #    [0, 1, 0, 0, 1]   # s4 - sp, porta 1, fila 4
+    #]
 
     # sem fila
-    #o = [
-    #    [1, 1],  # s1 - vix porta 3
-    #    [1, 1],  # s3 - rj, porta 3
-    #    [0, 1]   # s4 - sp, porta 1
-    #]
+    o = [
+        [1, 1],  # s1 - vix porta 3
+        [1, 1],  # s3 - rj, porta 3
+        [0, 1]   # s4 - sp, porta 1
+    ]
     
     routeid = calculate_routeid(nodes, o, debug=DEBUG)
     routeIDs.append(routeid)
@@ -60,18 +60,18 @@ def _main():
     
     # defining the transmission state for each node from h2 to h1
     # com fila
-    o = [
-        [1, 1, 0, 0, 1],   # s4 - sp
-        [0, 1, 0, 0, 1],   # s3 - rj
-        [0, 1, 0, 0, 1]    # s1 - vix
-    ]
+    #o = [
+    #    [1, 0, 0, 0, 1],   # s4 - sp
+    ##    [0, 1, 0, 0, 1],   # s3 - rj
+    #    [0, 1, 0, 0, 1]    # s1 - vix
+    #]
 
     # sem fila
-    #o = [
-    #    [1, 1],   # s4 - sp
-    #    [0, 1],   # s3 - rj
-    #    [0, 1]    # s1 - vix
-    #]
+    o = [
+        [1, 1],   # s4 - sp
+        [0, 1],   # s3 - rj
+        [0, 1]    # s1 - vix
+    ]
 
     routeid = calculate_routeid(nodes, o, debug=DEBUG)
     routeIDs.append(routeid)
