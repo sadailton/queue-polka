@@ -2,7 +2,7 @@
 
 ## Topologia
 
-![Topologia da rede Porvir](./p4_programs/porvir/img/topologia_porvir.png)
+![Topologia da rede Porvir](p4_programs/porvir/img/topologia_porvir.png)
 
 
 ### Subindo a topologia PORVIR
