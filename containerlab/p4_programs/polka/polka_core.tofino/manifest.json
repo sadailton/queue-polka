@@ -1,0 +1,60 @@
+{
+  "schema_version": "3.0.1",
+  "target": "tofino",
+  "build_date": "Sat Oct 25 14:08:34 2025",
+  "compiler_version": "9.13.4 (17ade03c1)",
+  "compilation_succeeded": true,
+  "compilation_time": "1.345266342163086",
+  "run_id": "5acbe87424054f2d",
+  "target_data": {
+    "architecture": "tna",
+    "architectureConfig": {
+      "name": "64q",
+      "pipes": [
+        {
+          "pipe": 0,
+          "ingress": {
+            "pipeName": "Ingress",
+            "nextControl": [
+              {
+                "pipe": 0,
+                "pipeName": "Egress"
+              }
+            ]
+          },
+          "egress": {
+            "pipeName": "Egress",
+            "nextControl": []
+          }
+        }
+      ]
+    },
+    "conf_file": "polka_core.conf"
+  },
+  "programs": [
+    {
+      "program_name": "polka_core.p4",
+      "p4_version": "p4-16",
+      "source_files": {
+        "src_root": "/mnt/polka",
+        "includes": [],
+        "defines": []
+      },
+      "pipes": [
+        {
+          "pipe_id": 0,
+          "pipe_name": "pipe",
+          "files": {
+            "context": {
+              "path": "pipe/context.json"
+            },
+            "resources": [],
+            "graphs": [],
+            "logs": []
+          }
+        }
+      ]
+    }
+  ],
+  "compile_command": "/open-p4studio/install/bin/p4c polka_core.p4"
+}

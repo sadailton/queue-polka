@@ -1,0 +1,33 @@
+all:
+  vars:
+    # The generated inventory is assumed to be used from the clab host.
+    # Hence no http proxy should be used. Therefore we make sure the http
+    # module does not attempt using any global http proxy.
+    ansible_httpapi_use_proxy: false
+  children:
+    linux:
+      hosts:
+        clab-porvir-core1:
+          ansible_host: 172.20.20.22
+        clab-porvir-core2:
+          ansible_host: 172.20.20.23
+        clab-porvir-core3:
+          ansible_host: 172.20.20.24
+        clab-porvir-core4:
+          ansible_host: 172.20.20.25
+        clab-porvir-edge1:
+          ansible_host: 172.20.20.12
+        clab-porvir-edge2:
+          ansible_host: 172.20.20.13
+        clab-porvir-edge3:
+          ansible_host: 172.20.20.14
+        clab-porvir-edge4:
+          ansible_host: 172.20.20.15
+        clab-porvir-host1:
+          ansible_host: 172.20.20.2
+        clab-porvir-host2:
+          ansible_host: 172.20.20.3
+        clab-porvir-host3:
+          ansible_host: 172.20.20.4
+        clab-porvir-host4:
+          ansible_host: 172.20.20.5

@@ -1,0 +1,603 @@
+{
+  "name": "porvir",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "clab",
+        "bridge": "br-eb891a86509d",
+        "ipv4-subnet": "172.20.20.0/24",
+        "ipv4-gw": "172.20.20.1",
+        "ipv6-subnet": "3fff:172:20:20::/64",
+        "ipv6-gw": "3fff:172:20:20::1",
+        "external-access": true
+      }
+    }
+  },
+  "ssh-pub-keys": ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO8JcwFcCUkko1KhAE9afDT5ocZBXZ/rqJhKL2ZYvQIT","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDKfvXdSq82ke1UUQCOHsPl8QjaI4eGjUHNWFuOKZBC+5ADoeIj9gEMSCBKiG7KH1IYACckrkYlsisG+/2l8+R5jfFdRpmHGfeuZIhCGDmrcBX8LpAXeaUa/Rum88Od27vBLFERxO6hCcvHh+sMnpvSTqRpCB+QNbzZKQL8uKMDcbZc3ALXksvDREFpOZWTaCoFP4YIkao/zneiazL3GOOqRUlHFtrEeUm90UW/7hHIfedI3bVhuz2JTe9hFv2irDE4hbMxweaxP9yM28w28m5LbKyDNUnxoHAi1lee7V3kO3UsV3KlqMTO4U15O7Yhoc+2T9gkPasRrFuRX7t+CaFuXqan7OhUxCss7A0quBY7RyxRxc+J2yxEvU9BGOTOLU3swVXuVKOwq9Xp3Xq5U6I+Vf6nYOnUX3A0fgeaNT83YHFoMGZaYEJwfUltnq7acv2/t1VCTrcokQmSp+eA/9gMHW45EpBl0nKxiBvgco9BLL1Ir0AqApR2L58HYJ3FfGc="],
+  "nodes": {
+    "core1": {
+      "index": "0",
+      "shortname": "core1",
+      "longname": "clab-porvir-core1",
+      "fqdn": "core1.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core1",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.22",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::4",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core1",
+        "clab-node-longname": "clab-porvir-core1",
+        "clab-node-name": "core1",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "core2": {
+      "index": "1",
+      "shortname": "core2",
+      "longname": "clab-porvir-core2",
+      "fqdn": "core2.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core2",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.23",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::5",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core2",
+        "clab-node-longname": "clab-porvir-core2",
+        "clab-node-name": "core2",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "core3": {
+      "index": "2",
+      "shortname": "core3",
+      "longname": "clab-porvir-core3",
+      "fqdn": "core3.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core3",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.24",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::7",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core3",
+        "clab-node-longname": "clab-porvir-core3",
+        "clab-node-name": "core3",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "core4": {
+      "index": "3",
+      "shortname": "core4",
+      "longname": "clab-porvir-core4",
+      "fqdn": "core4.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core4",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.25",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::c",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/core4",
+        "clab-node-longname": "clab-porvir-core4",
+        "clab-node-name": "core4",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "edge1": {
+      "index": "4",
+      "shortname": "edge1",
+      "longname": "clab-porvir-edge1",
+      "fqdn": "edge1.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge1",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::a",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge1",
+        "clab-node-longname": "clab-porvir-edge1",
+        "clab-node-name": "edge1",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "edge2": {
+      "index": "5",
+      "shortname": "edge2",
+      "longname": "clab-porvir-edge2",
+      "fqdn": "edge2.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge2",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.13",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::9",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge2",
+        "clab-node-longname": "clab-porvir-edge2",
+        "clab-node-name": "edge2",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "edge3": {
+      "index": "6",
+      "shortname": "edge3",
+      "longname": "clab-porvir-edge3",
+      "fqdn": "edge3.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge3",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.14",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::8",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge3",
+        "clab-node-longname": "clab-porvir-edge3",
+        "clab-node-name": "edge3",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "edge4": {
+      "index": "7",
+      "shortname": "edge4",
+      "longname": "clab-porvir-edge4",
+      "fqdn": "edge4.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge4",
+      "kind": "linux",
+      "image": "tofino-image:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.15",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::d",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/edge4",
+        "clab-node-longname": "clab-porvir-edge4",
+        "clab-node-name": "edge4",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "host1": {
+      "index": "8",
+      "shortname": "host1",
+      "longname": "clab-porvir-host1",
+      "fqdn": "host1.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host1",
+      "kind": "linux",
+      "image": "ubuntu:22.04",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.2",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::b",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host1",
+        "clab-node-longname": "clab-porvir-host1",
+        "clab-node-name": "host1",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "host2": {
+      "index": "9",
+      "shortname": "host2",
+      "longname": "clab-porvir-host2",
+      "fqdn": "host2.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host2",
+      "kind": "linux",
+      "image": "ubuntu:22.04",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.3",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::2",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host2",
+        "clab-node-longname": "clab-porvir-host2",
+        "clab-node-name": "host2",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "host3": {
+      "index": "10",
+      "shortname": "host3",
+      "longname": "clab-porvir-host3",
+      "fqdn": "host3.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host3",
+      "kind": "linux",
+      "image": "ubuntu:22.04",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.4",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::3",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host3",
+        "clab-node-longname": "clab-porvir-host3",
+        "clab-node-name": "host3",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    },
+    "host4": {
+      "index": "11",
+      "shortname": "host4",
+      "longname": "clab-porvir-host4",
+      "fqdn": "host4.porvir.io",
+      "group": "",
+      "labdir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host4",
+      "kind": "linux",
+      "image": "ubuntu:22.04",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.5",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::6",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-eb891a86509d",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/clab-porvir/host4",
+        "clab-node-longname": "clab-porvir-host4",
+        "clab-node-name": "host4",
+        "clab-node-type": "",
+        "clab-owner": "adailton",
+        "clab-topo-file": "/home/adailton/Documentos/Mestrado/git/queue-polka/containerlab/porvir.clab.yml",
+        "containerlab": "porvir"
+      },
+      "port-bindings": [
+      ]
+    }
+  },
+  "links": [
+    {
+      "endpoints": {
+        "a": {
+          "node": "host1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:bf:54:df",
+          "peer": "z"
+        },
+        "z": {
+          "node": "edge1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:69:cf:26",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "host2",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:9c:6e:7f",
+          "peer": "z"
+        },
+        "z": {
+          "node": "edge2",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:f5:df:4c",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "host3",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:21:c8:fc",
+          "peer": "z"
+        },
+        "z": {
+          "node": "edge3",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:f8:4f:10",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "host4",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:b3:4f:52",
+          "peer": "z"
+        },
+        "z": {
+          "node": "edge4",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:7a:85:e8",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "edge1",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:2e:5d:73",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core1",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:ea:4c:cf",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "edge2",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:bf:fb:98",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core2",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:13:cf:b1",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "edge3",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:ef:f1:e0",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core3",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:f1:cf:04",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "edge4",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:c4:6f:4a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core4",
+          "interface": "eth1",
+          "mac": "aa:c1:ab:99:60:76",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "core1",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:c6:9d:4c",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core2",
+          "interface": "eth4",
+          "mac": "aa:c1:ab:3f:a0:d4",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "core1",
+          "interface": "eth3",
+          "mac": "aa:c1:ab:e7:9b:53",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core4",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:7b:93:fb",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "core2",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:ba:b8:75",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core3",
+          "interface": "eth3",
+          "mac": "aa:c1:ab:2c:20:fa",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "core2",
+          "interface": "eth3",
+          "mac": "aa:c1:ab:0d:c0:3d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core4",
+          "interface": "eth3",
+          "mac": "aa:c1:ab:bb:cb:b9",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "core3",
+          "interface": "eth2",
+          "mac": "aa:c1:ab:08:ba:ad",
+          "peer": "z"
+        },
+        "z": {
+          "node": "core4",
+          "interface": "eth4",
+          "mac": "aa:c1:ab:dd:33:46",
+          "peer": "a"
+        }
+      }
+    }
+  ]
+}

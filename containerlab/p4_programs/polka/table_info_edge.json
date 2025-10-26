@@ -1,0 +1,42 @@
+{
+    "edge1": {
+      "table_key_name": "hdr.ipv4.dstAddr",
+      "table_data": [
+          {
+            "table_key_name": "hdr.ipv4.dstAddr",
+            "table_key": "10.10.1.1/32",
+            "mac_destino": "aa:c1:ab:2d:25:6d",
+            "porta": 2,
+            "route_id": 0,
+            "apply_polka": 0
+          },
+          {
+            "table_key": "10.10.1.2/32",
+            "mac_destino": "aa:c1:ab:2e:2c:b1",
+            "porta": 3,
+            "route_id": 3,
+            "apply_polka": 1
+          }
+      ]
+    },
+    
+    "edge2": {
+      "table_key_name": "hdr.ipv4.dstAddr",
+      "table_data": [
+          {
+            "table_key": "10.10.1.2/32",
+            "mac_destino": "aa:c1:ab:2e:2c:b1",
+            "porta": 2,
+            "route_id": 0,
+            "apply_polka": 0
+          },
+          {
+            "table_key": "10.10.1.1/32",
+            "mac_destino": "aa:c1:ab:2d:25:6d",
+            "porta": 3,
+            "route_id": 2,
+            "apply_polka": 1
+          }
+        ]
+      }
+  }

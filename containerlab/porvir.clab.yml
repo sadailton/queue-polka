@@ -1,0 +1,218 @@
+name: porvir
+
+topology:
+  
+  nodes:
+    host1:
+      kind: linux
+      image: ubuntu:22.04
+      mgmt-ipv4: 172.20.20.2
+      binds:
+        - ~/.ssh/id_ed25519.pub:/tmp/id_ed25519.pub
+      exec: 
+        #- apt update
+        #- apt install net-tools openssh-server iproute2 fping -y
+        - /etc/init.d/ssh start
+        #- mkdir -p /root/.ssh
+        #- "/bin/bash -c 'cat /tmp/id_ed25519.pub > /root/.ssh/authorized_keys'"
+        #- chmod 600 /root/.ssh/authorized_keys
+        #- chmod 700 /root/.ssh
+        - ip addr add 10.10.1.1/24 dev eth1
+      
+    host2:
+      kind: linux
+      image: ubuntu:22.04
+      mgmt-ipv4: 172.20.20.3
+      binds:
+        - ~/.ssh/id_ed25519.pub:/tmp/id_ed25519.pub
+      exec: 
+        #- apt update
+        #- apt install net-tools openssh-server iproute2 fping -y
+        - /etc/init.d/ssh start
+        #- mkdir -p /root/.ssh
+        #- "/bin/bash -c 'cat /tmp/id_ed25519.pub > /root/.ssh/authorized_keys'"
+        #- chmod 600 /root/.ssh/authorized_keys
+        #- chmod 700 /root/.ssh
+        - ip addr add 10.10.1.2/24 dev eth1
+    
+    host3:
+      kind: linux
+      image: ubuntu:22.04
+      mgmt-ipv4: 172.20.20.4
+      binds:
+        - ~/.ssh/id_ed25519.pub:/tmp/id_ed25519.pub
+      exec: 
+        #- apt update
+        #- apt install net-tools openssh-server iproute2 fping -y
+        - /etc/init.d/ssh start
+        #- mkdir -p /root/.ssh
+        #- "/bin/bash -c 'cat /tmp/id_ed25519.pub > /root/.ssh/authorized_keys'"
+        #- chmod 600 /root/.ssh/authorized_keys
+        #- chmod 700 /root/.ssh
+        - ip addr add 10.10.1.3/24 dev eth1
+    
+    host4:
+      kind: linux
+      image: ubuntu:22.04
+      mgmt-ipv4: 172.20.20.5
+      binds:
+        - ~/.ssh/id_ed25519.pub:/tmp/id_ed25519.pub
+      exec: 
+        #- apt update
+        #- apt install net-tools openssh-server iproute2 fping -y
+        - /etc/init.d/ssh start
+        #- mkdir -p /root/.ssh
+        #- "/bin/bash -c 'cat /tmp/id_ed25519.pub > /root/.ssh/authorized_keys'"
+        #- chmod 600 /root/.ssh/authorized_keys
+        #- chmod 700 /root/.ssh
+        - ip addr add 10.10.1.4/24 dev eth1
+
+    edge1:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.12
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_edge'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_edge.sh
+        - /bin/bash -c '. /mnt/pythonpath.sh; python3 /mnt/porvir/controller_edge.py'
+  
+      binds:
+        - ./p4_programs:/mnt
+        
+    edge2:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.13
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        #- sysctl vm.nr_hugepages=512
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_edge'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_edge.sh
+        - /bin/bash -c '. /mnt/pythonpath.sh; python3 /mnt/porvir/controller_edge.py'
+  
+      binds:
+        - ./p4_programs:/mnt
+
+    edge3:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.14
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        #- sysctl vm.nr_hugepages=512
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_edge'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_edge.sh
+        - /bin/bash -c '. /mnt/pythonpath.sh; python3 /mnt/porvir/controller_edge.py'
+  
+      binds:
+        - ./p4_programs:/mnt
+
+    edge4:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.15
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        #- sysctl vm.nr_hugepages=512
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_edge'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_edge.sh
+        - /bin/bash -c '. /mnt/pythonpath.sh; python3 /mnt/porvir/controller_edge.py'
+  
+      binds:
+        - ./p4_programs:/mnt
+
+    core1:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.22
+      env:
+        ROUTE_ID: 0x002b
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_core'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_core.sh
+      binds:
+        - ./p4_programs:/mnt
+    
+    core2:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.23
+      env:
+        ROUTE_ID: 0x002d
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_core'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_core.sh
+      binds:
+        - ./p4_programs:/mnt
+
+    core3:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.24
+      env:
+        ROUTE_ID: 0x0039
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_core'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_core.sh
+      binds:
+        - ./p4_programs:/mnt
+    
+    core4:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.25
+      env:
+        ROUTE_ID: 0x003f
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/porvir; make -f ./Makefile_core'"
+        - tmux new-sess -d /mnt/porvir/init_tofino_core.sh
+      binds:
+        - ./p4_programs:/mnt
+      
+
+  links:
+    - endpoints: ["host1:eth1","edge1:eth1"]
+    - endpoints: ["host2:eth1","edge2:eth1"]
+    - endpoints: ["host3:eth1","edge3:eth1"]
+    - endpoints: ["host4:eth1","edge4:eth1"]
+
+    - endpoints: ["edge1:eth2","core1:eth1"]
+    - endpoints: ["edge2:eth2","core2:eth1"]
+    - endpoints: ["edge3:eth2","core3:eth1"]
+    - endpoints: ["edge4:eth2","core4:eth1"]
+
+    - endpoints: ["core1:eth2","core2:eth4"]
+    - endpoints: ["core1:eth3","core4:eth2"]
+    - endpoints: ["core2:eth2","core3:eth3"]
+    - endpoints: ["core2:eth3","core4:eth3"]
+
+    - endpoints: ["core3:eth2","core4:eth4"]

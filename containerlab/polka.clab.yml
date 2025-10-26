@@ -1,0 +1,93 @@
+name: polkalab
+
+topology:
+  nodes:
+    host1:
+      kind: linux
+      image: ubuntu:22.04
+      mgmt-ipv4: 172.20.20.2
+      binds:
+        - ~/.ssh/id_ed25519.pub:/tmp/id_ed25519.pub
+      exec: 
+        #- apt update
+        #- apt install net-tools openssh-server iproute2 fping -y
+        - /etc/init.d/ssh start
+        #- mkdir -p /root/.ssh
+        #- "/bin/bash -c 'cat /tmp/id_ed25519.pub > /root/.ssh/authorized_keys'"
+        #- chmod 600 /root/.ssh/authorized_keys
+        #- chmod 700 /root/.ssh
+        - ip addr add 10.10.1.1/24 dev eth1
+      
+    host2:
+      kind: linux
+      image: ubuntu:22.04
+      mgmt-ipv4: 172.20.20.3
+      binds:
+        - ~/.ssh/id_ed25519.pub:/tmp/id_ed25519.pub
+      exec: 
+        #- apt update
+        #- apt install net-tools openssh-server iproute2 fping -y
+        - /etc/init.d/ssh start
+        #- mkdir -p /root/.ssh
+        #- "/bin/bash -c 'cat /tmp/id_ed25519.pub > /root/.ssh/authorized_keys'"
+        #- chmod 600 /root/.ssh/authorized_keys
+        #- chmod 700 /root/.ssh
+        - ip addr add 10.10.1.2/24 dev eth1
+
+    core1:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.4
+      env:
+        ROUTE_ID: 0x002d
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/polka; make -f ./Makefile_core'"
+        - tmux new-sess -d /mnt/polka/init_tofino_core.sh
+      binds:
+        - ./p4_programs:/mnt
+      
+    edge1:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.5
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - "/bin/bash -c 'cd /mnt/polka; make -f ./Makefile_edge'"
+        - tmux new-sess -d /mnt/polka/init_tofino_edge.sh
+        - /bin/bash -c '. /mnt/pythonpath.sh; python3 /mnt/polka/controller_edge.py'
+  
+      binds:
+        - ./p4_programs:/mnt
+        
+    edge2:
+      kind: linux
+      image: tofino-image:latest
+      mgmt-ipv4: 172.20.20.6
+      exec: 
+        - /etc/init.d/ssh start
+        - apt install tmux -y
+        - mkdir -p /dev/hugepages 
+        - mount -t hugetlbfs none /dev/hugepages
+        - sysctl vm.nr_hugepages=512
+        - "/bin/bash -c 'cd /mnt/polka; make -f ./Makefile_edge'"
+        - tmux new-sess -d /mnt/polka/init_tofino_edge.sh
+        - /bin/bash -c '. /mnt/pythonpath.sh; python3 /mnt/polka/controller_edge.py'
+  
+      binds:
+        - ./p4_programs:/mnt
+
+  links:
+    - endpoints: ["host1:eth1","edge1:eth1"]
+
+    - endpoints: ["host2:eth1","edge2:eth1"]
+
+    - endpoints: ["edge1:eth2","core1:eth1"]
+
+    - endpoints: ["core1:eth2","edge2:eth2"]

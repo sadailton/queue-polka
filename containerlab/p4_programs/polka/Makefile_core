@@ -1,0 +1,26 @@
+P4_PROGRAM := polka_core
+P4_PROGRAM_PATH := /mnt/polka
+SDE := $(shell echo $$SDE)
+SDE_INSTALL := $(shell echo $$SDE_INSTALL)
+
+# A variavel de ambiente ROUTE_ID está definida no arquivo polka.clab.yml
+P4C_MACROS := -DROUTE_ID=$(shell echo $$ROUTE_ID)
+
+all:
+	@rm -rf ${SDE}/build/p4-build/${P4_PROGRAM}
+	@mkdir -p ${SDE}/build/p4-build/${P4_PROGRAM}
+	@cd ${SDE}/build/p4-build/${P4_PROGRAM} && \
+	cmake ${SDE}/p4studio \
+		-DCMAKE_MODULE_PATH="${SDE}/cmake" \
+        -DCMAKE_INSTALL_PREFIX="${SDE_INSTALL}" \
+		-DP4C=${SDE_INSTALL}/bin/p4c \
+		-DP4_PATH=$(P4_PROGRAM_PATH)/$(P4_PROGRAM).p4 \
+		-DP4_NAME=$(P4_PROGRAM) \
+		-DP4_LANG=p4_16 \
+		-DTOFINO=OFF \
+		-DTOFINO2=ON \
+		-DP4FLAGS="$(P4C_MACROS)" && \
+	make install
+
+clean:
+	@rm -rf /mnt/CMakeFiles /mnt/CMakeCache.txt

@@ -1,0 +1,22 @@
+P4_PROGRAM := l2_example
+P4_PROGRAM_PATH := "/mnt/l2_example"
+SDE := $(shell echo $$SDE)
+SDE_INSTALL := $(shell echo $$SDE_INSTALL)
+
+all:
+	@rm -rf ${SDE}/build/p4-build/${P4_PROGRAM}
+	@mkdir -p ${SDE}/build/p4-build/${P4_PROGRAM}
+	@cd ${SDE}/build/p4-build/${P4_PROGRAM} && \
+	cmake ${SDE}/p4studio \
+		-DCMAKE_MODULE_PATH="${SDE}/cmake" \
+		-DCMAKE_INSTALL_PREFIX="${SDE_INSTALL}" \
+		-DP4C=${SDE_INSTALL}/bin/p4c \
+		-DP4_PATH=$(P4_PROGRAM_PATH)/$(P4_PROGRAM).p4 \
+		-DP4_NAME=$(P4_PROGRAM) \
+		-DP4_LANG=p4_16 \
+		-DTOFINO=OFF \
+		-DTOFINO2=ON && \
+	make -j install
+
+clean:
+	@rm -rf /mnt/CMakeFiles /mnt/CMakeCache.txt

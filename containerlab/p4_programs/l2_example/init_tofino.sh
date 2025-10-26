@@ -1,0 +1,19 @@
+#!/bin/env bash
+
+# Script to initialize the Tofino switch in Containerlab
+
+P4_PROGRAM_DIR="/mnt/l2_example"
+P4_PROGRAM="l2_example"
+ARCH="tofino2"
+PORT_INFO_FILE="${P4_PROGRAM_DIR}/portinfo_if.json"
+
+
+echo "Starting Tofino model...   "
+$SDE/run_tofino_model.sh -p $P4_PROGRAM --arch $ARCH -f $PORT_INFO_FILE &
+echo -e "Tofino model started."
+sleep 3
+
+
+echo "Starting switchd...   "
+$SDE/run_switchd.sh -p $P4_PROGRAM --arch $ARCH
+echo -e "switchd started."
