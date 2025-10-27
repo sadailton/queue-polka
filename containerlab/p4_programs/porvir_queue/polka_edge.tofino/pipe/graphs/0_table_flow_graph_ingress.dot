@@ -1,0 +1,49 @@
+digraph ingress {
+cond_4 [ shape=record, style="filled", fillcolor=cornsilk, label="hdr.ipv4.$valid == 1 && hdr.ethernet.etherType != 4660\l\l
+ "];
+process_tunnel_encap_tunnel_encap_process_sr [ shape=record, style="filled", fillcolor=cornsilk, label="process_tunnel_encap_tunnel_encap_process_sr\l\l
+M:\l
+ hdr.ipv4.dstAddr\l
+\lW:\l
+ ig_intr_md_for_tm.ucast_egress_port\l
+ meta.apply_sr\l
+ hdr.ethernet.dstAddr\l
+ hdr.srcRoute.$valid\l
+ hdr.srcRoute.routeId\l
+ ig_intr_md_for_dprsr.drop_ctl\l
+ "];
+cond_6 [ shape=record, style="filled", fillcolor=cornsilk, label="hdr.ethernet.etherType == 4660\l\l
+ "];
+tbl_ingress_edge32 [ shape=record, style="filled", fillcolor=cornsilk, label="tbl_ingress_edge32\l\l
+W:\l
+ hdr.ethernet.etherType\l
+ hdr.srcRoute.$valid\l
+ "];
+tbl_send [ shape=record, style="filled", fillcolor=cornsilk, label="tbl_send\l\l
+W:\l
+ ig_intr_md_for_tm.ucast_egress_port\l
+ "];
+cond_5 [ shape=record, style="filled", fillcolor=cornsilk, label="meta.apply_sr != 1\l\l
+ "];
+tbl_edgetunnel_encap49 [ shape=record, style="filled", fillcolor=cornsilk, label="tbl_edgetunnel_encap49\l\l
+W:\l
+ hdr.srcRoute.$valid\l
+ "];
+tbl_edgetunnel_encap51 [ shape=record, style="filled", fillcolor=cornsilk, label="tbl_edgetunnel_encap51\l\l
+W:\l
+ hdr.ethernet.etherType\l
+ "];
+    PARSER -> cond_4
+    cond_4 -> process_tunnel_encap_tunnel_encap_process_sr
+    PARSER -> cond_4
+    cond_4 -> cond_6
+    cond_6 -> tbl_ingress_edge32
+    cond_6 -> DEPARSER
+    tbl_ingress_edge32 -> tbl_send
+    tbl_send -> DEPARSER
+    process_tunnel_encap_tunnel_encap_process_sr -> cond_5
+    cond_5 -> tbl_edgetunnel_encap49
+    cond_5 -> tbl_edgetunnel_encap51
+    tbl_edgetunnel_encap49 -> DEPARSER
+    tbl_edgetunnel_encap51 -> DEPARSER
+}

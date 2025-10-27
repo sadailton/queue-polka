@@ -1,0 +1,138 @@
+{
+    "edge1": {
+      "table_key_name": "hdr.ipv4.dstAddr",
+      "table_data": [
+          {
+            "table_key_name": "hdr.ipv4.dstAddr",
+            "table_key": "10.10.1.1/32",
+            "mac_destino": "aa:c1:ab:bc:94:f1",
+            "porta": 2,
+            "route_id": 0,
+            "apply_polka": 0
+          },
+          {
+            "table_key": "10.10.1.2/32",
+            "mac_destino": "aa:c1:ab:f7:7c:77",
+            "porta": 3,
+            "route_id": 2147385797,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.3/32",
+            "mac_destino": "aa:c1:ab:05:0f:f0",
+            "porta": 3,
+            "route_id": 35172569164509,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.4/32",
+            "mac_destino": "aa:c1:ab:cd:8c:e2",
+            "porta": 3,
+            "route_id": 3,
+            "apply_polka": 1
+          }
+      ]
+    },
+    
+    "edge2": {
+      "table_key_name": "hdr.ipv4.dstAddr",
+      "table_data": [
+          {
+            "table_key": "10.10.1.2/32",
+            "mac_destino": "aa:c1:ab:f7:7c:77",
+            "porta": 2,
+            "route_id": 0,
+            "apply_polka": 0
+          },
+          {
+            "table_key": "10.10.1.1/32",
+            "mac_destino": "aa:c1:ab:bc:94:f1",
+            "porta": 3,
+            "route_id": 2147451375,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.3/32",
+            "mac_destino": "aa:c1:ab:05:0f:f0",
+            "porta": 3,
+            "route_id": 357843069,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.4/32",
+            "mac_destino": "aa:c1:ab:cd:8c:e2",
+            "porta": 3,
+            "route_id": 2,
+            "apply_polka": 1
+          }
+        ]
+      },
+
+      "edge3": {
+      "table_key_name": "hdr.ipv4.dstAddr",
+      "table_data": [
+          {
+            "table_key": "10.10.1.3/32",
+            "mac_destino": "aa:c1:ab:05:0f:f0",
+            "porta": 2,
+            "route_id": 0,
+            "apply_polka": 0
+          },
+          {
+            "table_key": "10.10.1.1/32",
+            "mac_destino": "aa:c1:ab:bc:94:f1",
+            "porta": 3,
+            "route_id": 15081013684063,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.2/32",
+            "mac_destino": "aa:c1:ab:f7:7c:77",
+            "porta": 3,
+            "route_id": 2147057926,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.4/32",
+            "mac_destino": "aa:c1:ab:cd:8c:e2",
+            "porta": 3,
+            "route_id": 2147385774,
+            "apply_polka": 1
+          }
+        ]
+      },
+
+      "edge4": {
+      "table_key_name": "hdr.ipv4.dstAddr",
+      "table_data": [
+          {
+            "table_key": "10.10.1.4/32",
+            "mac_destino": "aa:c1:ab:cd:8c:e2",
+            "porta": 2,
+            "route_id": 0,
+            "apply_polka": 0
+          },
+          {
+            "table_key": "10.10.1.1/32",
+            "mac_destino": "aa:c1:ab:bc:94:f1",
+            "porta": 3,
+            "route_id": 2,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.2/32",
+            "mac_destino": "aa:c1:ab:f7:7c:77",
+            "porta": 3,
+            "route_id": 2,
+            "apply_polka": 1
+          },
+          {
+            "table_key": "10.10.1.3/32",
+            "mac_destino": "aa:c1:ab:05:0f:f0",
+            "porta": 3,
+            "route_id": 2147451286,
+            "apply_polka": 1
+          }
+        ]
+      }
+  }

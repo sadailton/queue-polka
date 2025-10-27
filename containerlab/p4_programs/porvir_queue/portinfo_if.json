@@ -1,0 +1,23 @@
+{
+    "PortToIf": [
+	    { 
+	    	"device_port": 2,
+		    "if": "eth1"
+	    },
+        
+        { 
+        	"device_port": 3,
+            "if": "eth2"
+        },
+
+        { 
+        	"device_port": 4,
+            "if": "eth3"
+        },
+
+        { 
+        	"device_port": 5,
+            "if": "eth4"
+        }
+    ]
+}
