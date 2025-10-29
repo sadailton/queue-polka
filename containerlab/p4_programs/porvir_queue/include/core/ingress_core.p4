@@ -10,7 +10,7 @@ control Ingress(
     inout ingress_intrinsic_metadata_for_tm_t        ig_tm_md) {
 
 
-    CRCPolynomial<bit<16>>(ROUTE_ID, false, false, false, 16w0x0000, 16w0x0000) crc16d;
+    CRCPolynomial<bit<16>>(SWITCH_ID, false, false, false, 16w0x0000, 16w0x0000) crc16d;
     Hash<bit<16>>(HashAlgorithm_t.CUSTOM, crc16d) hash3;
 
     action drop() {

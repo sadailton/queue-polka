@@ -139,7 +139,7 @@ topology:
       image: tofino-image:latest
       mgmt-ipv4: 172.20.20.22
       env:
-        ROUTE_ID: 0x002b
+        SWITCH_ID: 0x002b
       exec: 
         - /etc/init.d/ssh start
         - apt install tmux -y
@@ -155,7 +155,7 @@ topology:
       image: tofino-image:latest
       mgmt-ipv4: 172.20.20.23
       env:
-        ROUTE_ID: 0x002d
+        SWITCH_ID: 0x002d
       exec: 
         - /etc/init.d/ssh start
         - apt install tmux -y
@@ -171,7 +171,7 @@ topology:
       image: tofino-image:latest
       mgmt-ipv4: 172.20.20.24
       env:
-        ROUTE_ID: 0x0039
+        SWITCH_ID: 0x0039
       exec: 
         - /etc/init.d/ssh start
         - apt install tmux -y
@@ -187,7 +187,7 @@ topology:
       image: tofino-image:latest
       mgmt-ipv4: 172.20.20.25
       env:
-        ROUTE_ID: 0x003f
+        SWITCH_ID: 0x003f
       exec: 
         - /etc/init.d/ssh start
         - apt install tmux -y

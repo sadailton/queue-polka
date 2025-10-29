@@ -4,7 +4,7 @@ SDE := $(shell echo $$SDE)
 SDE_INSTALL := $(shell echo $$SDE_INSTALL)
 
 # A variavel de ambiente ROUTE_ID está definida no arquivo polka.clab.yml
-P4C_MACROS := -DROUTE_ID=$(shell echo $$ROUTE_ID)
+P4C_MACROS := -DSWITCH_ID=$(shell echo $$SWITCH_ID)
 
 all:
 	@rm -rf ${SDE}/build/p4-build/${P4_PROGRAM}
