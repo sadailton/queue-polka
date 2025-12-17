@@ -35,7 +35,7 @@ def _main():
     # com fila
     o = [
         [1, 1, 0, 0, 1],  # s1 - vix porta 3, fila 1
-        [1, 1, 0, 0, 1],  # s3 - rj, porta 3, fila 3
+        [1, 1, 0, 0, 1],  # s3 - rj, porta 3, fila 1
         [0, 1, 0, 0, 1]   # s4 - sp, porta 1, fila 4
     ]
 

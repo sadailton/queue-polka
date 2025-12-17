@@ -45,14 +45,14 @@ def _main():
     print("\nFrom h4(sp) to h3(rj) ====")
     # defining the nodes from h4 (sp) to h3 (rj)
     nodes = [
-        s[3], # s4 - mg
+        s[3], # s4 - sp
         s[2]  # s3 - rj
     ]
     
     # defining the transmission state for each node from h4 to h3
     o = [
-        [0, 1, 1, 0, 1, 1],   # s4 - sp
-        [0, 0, 1, 0, 0, 1]    # s3 - rj
+        [0, 1, 1, 0, 1, 1],   # s4 - sp, porta 3, fila 3
+        [0, 0, 1, 0, 0, 1]    # s3 - rj, porta 1, fila 1
     ]
 
     routeid = calculate_routeid(nodes, o, debug=DEBUG)

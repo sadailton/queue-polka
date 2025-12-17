@@ -132,7 +132,7 @@ control process_tunnel_encap(inout headers hdr,
 
     table tunnel_encap_process_sr {
         key = {
-            hdr.ipv4.dstAddr: lpm;
+            hdr.ipv4.diffserv: exact;
         }
         actions = {
             add_sourcerouting_header;

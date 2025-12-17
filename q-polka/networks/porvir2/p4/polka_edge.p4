@@ -9,6 +9,10 @@ const bit<16> TYPE_SRCROUTING = 0x1234;
 //Ethernet frame payload padding and P4
 //https://github.com/p4lang/p4-spec/issues/587
 
+// Define macros para o v1model
+#define READ_REG(reg_instance, out_var, index)  reg_instance.read(out_var, index)
+#define WRITE_REG(reg_instance, index, in_var)  reg_instance.write(index, in_var)
+
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
 *************************************************************************/
@@ -31,6 +35,7 @@ header ipv4_t {
     bit<4>    version;
     bit<4>    ihl;
     bit<8>    diffserv;
+    bit<2>    ecn;
     bit<16>   totalLen;
     bit<16>   identification;
     bit<3>    flags;
@@ -47,6 +52,9 @@ struct metadata {
     bit<16>   etherType;
     bit<1> apply_sr;
     bit<9> port;
+    bit<48> ts;
+    bit<32> slice_id;
+    bit<1> dropFlag;
 }
 
 struct polka_t_top {
@@ -113,6 +121,15 @@ control MyVerifyChecksum(inout headers hdr, inout metadata meta) {
 control process_tunnel_encap(inout headers hdr,
                             inout metadata meta,
                             inout standard_metadata_t standard_metadata) {
+
+    // Exemplo (assumindo 256 slices e timestamp de 64 bits)
+    register<bit<64>>(256) slice_ts;
+    //
+    // Exemplo (assumindo 256 slices e delay de 32 bits)
+    register<bit<32>>(256) slice_delay;
+
+   
+    
     action tdrop() {
         mark_to_drop(standard_metadata);
     }
@@ -128,6 +145,51 @@ control process_tunnel_encap(inout headers hdr,
         hdr.srcRoute.setValid();
         hdr.srcRoute.routeId = routeIdPacket;
         
+    }
+
+    action queue_management(bit<64> T_DELAY, bit<64> C_DELAY, bit<64> M_DELAY) {
+
+        bit<48> delay = 0;
+        //meta.ts = intrinsic_metadata.ingress_global_timestamp;
+        meta.ts = standard_metadata.ingress_global_timestamp;
+        bit<48> c_ts = meta.ts;
+        bit<48> p_ts;
+        bit<48> delta = 0;
+
+        @atomic {
+            READ_REG(slice_ts, p_ts, meta.slice_id);
+            WRITE_REG(slice_ts, meta.slice_id, c_ts);
+        }
+
+        if ((p_ts == 0) || (p_ts > c_ts)) {
+            p_ts = c_ts;
+        }
+
+        delta = c_ts - p_ts;
+        
+        if (delta >= 3294967296) {
+            delta = delta - 3294967296;
+        }
+
+        @atomic {
+            READ_REG(slice_delay, delay, meta.slice_id);
+            if (delta > delay) {
+                delay = 0;
+            } else {
+                delay = delay - delta;
+            }
+            if (delay + T_DELAY > C_DELAY) {
+                meta.dropFlag = 1;
+            } else {
+                delay = delay + T_DELAY;
+            }
+
+            WRITE_REG(slice_delay, meta.slice_id, delay);
+        }
+
+        if ((meta.dropFlag == 0) && (hdr.ipv4.ecn != 0) && (delay > M_DELAY)) {
+            hdr.ipv4.ecn = 3;
+        }
     }
 
     table tunnel_encap_process_sr {
@@ -166,6 +228,7 @@ control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
 
+    
     action drop() {
         mark_to_drop(standard_metadata);
     }
