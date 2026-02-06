@@ -1,0 +1,9 @@
+table_clear MyIngress.mac_forward
+table_add MyIngress.mac_forward forward aa:00:00:00:00:01 => 1
+table_add MyIngress.mac_forward forward aa:00:00:00:00:02 => 2
+
+table_clear MyIngress.pifo_init
+
+table_add MyIngress.pifo_init config_pifo 1 => 1000 0
+
+table_add MyIngress.pifo_init config_pifo 2 => 1000 1
