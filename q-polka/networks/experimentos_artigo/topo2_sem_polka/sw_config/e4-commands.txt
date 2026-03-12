@@ -1,0 +1,10 @@
+table_set_default ipv4_lpm drop
+
+table_add ipv4_lpm  ipv4_forward     10.0.0.4/32 => 1 aa:00:00:00:00:04
+table_add ipv4_lpm  ipv4_forward     10.0.0.6/32 => 2 aa:00:00:00:00:06
+
+table_add override_tos set_tos 0x04 => 0x00
+
+table_add core_slice_classifier set_slice_class 0x46 => 2
+table_add core_slice_classifier set_slice_class 0x2E => 2
+

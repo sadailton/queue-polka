@@ -1,0 +1,12 @@
+set_crc16_parameters calc 0x00d7 0x0 0x0 false false
+
+table_set_default tunnel_encap_process_sr tdrop
+table_add tunnel_encap_process_sr add_sourcerouting_header 10.0.0.4/32 => 1 0 aa:00:00:00:00:04 0
+table_add tunnel_encap_process_sr add_sourcerouting_header 10.0.0.1/32 => 2 1 aa:00:00:00:00:01 9095667555053079850
+table_add tunnel_encap_process_sr add_sourcerouting_header 10.0.0.2/32 => 2 1 aa:00:00:00:00:02 950827653973778281
+table_add tunnel_encap_process_sr add_sourcerouting_header 10.0.0.3/32 => 3 1 aa:00:00:00:00:03 7273465357021190984
+
+table_add core_slice_classifier set_slice_class 5515473570042297734 => 1
+table_add core_slice_classifier set_slice_class 9095667555053079849 => 1
+table_add core_slice_classifier set_slice_class 15051264787334585140 => 1
+table_add core_slice_classifier set_slice_class 14510690083404523279 => 1
